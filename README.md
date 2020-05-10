@@ -47,6 +47,23 @@ model5 = tf.keras.Sequential([
 
 ## D_...
 
-### Label processing and RNN model building for sequence predictions
+### Sequence predictions
+- Text pre-processing - building sequences and labels
 ```
+# One Hot encode labels
+from tensorflow.keras.utils import to_categorical
+y = to_categorical(labels, num_classes=vocab_size+1)
+```
+- Predicted text generation
+```
+word_nr = model.predict_classes(padded_seed, verbose=0)
+```
+- Using larger RNN model, with 2 LSTM layers, Dropout and L2 regularizations
+```
+...
+model.add(Bidirectional(LSTM(150, return_sequences = True)))
+model.add(Dropout(0.2))
+model.add(LSTM(100))
+model.add(Dense(total_words/2, activation='relu', kernel_regularizer=regularizers.l2(0.01)))
+...
 ```
