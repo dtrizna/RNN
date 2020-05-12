@@ -6,7 +6,7 @@ Repository contains PoC code for various TensorFlow classes and methods, which R
 
 ## A_...
 
-### Preprocessing
+Preprocessing:
 ```
 tf.keras.preprcessing.text.Tokenizer()
 tf.keras.preprocessing.sequence.pad_sequences()
@@ -15,17 +15,18 @@ tf.keras.preprocessing.sequence.pad_sequences()
 
 ## B_...
 
-### Tensorflow built-in Datasets
+Tensorflow built-in Datasets:
 ```
 tsdf.load("imdb_reviews", as_supervised=True, with_info=True)
 ```
-### Embedding and its output visualization
+
+Embedding and its output visualization:
 ```
 tf.keras.layers.Embedding()
 http://projector.tensorflow.org/
 ```
 
-### Usage of pretrained Embeddings for english words (glove.6B.100d.txt)
+Usage of pretrained Embeddings for english words (glove.6B.100d.txt):
 ```
 tf.keras.layers.Embedding(vocab_size, embedding_dim, input_length=max_length,
                               weights=embeddings_matrix], trainable=False)
@@ -34,7 +35,7 @@ tf.keras.layers.Embedding(vocab_size, embedding_dim, input_length=max_length,
 
 ## C_...
 
-### Various RNN model examples
+Various RNN model examples:
 ```
 model5 = tf.keras.Sequential([
     tf.keras.layers.Embedding(VOCAB_SIZE, EMB_DIM, input_length=120),
@@ -47,7 +48,7 @@ model5 = tf.keras.Sequential([
 
 ## D_...
 
-### Sequence predictions
+Sequence predictions:
 - Text pre-processing - building sequences and labels
 ```
 # One Hot encode labels
@@ -66,4 +67,35 @@ model.add(Dropout(0.2))
 model.add(LSTM(100))
 model.add(Dense(total_words/2, activation='relu', kernel_regularizer=regularizers.l2(0.01)))
 ...
+```
+
+# Time Series data
+
+## A_...
+
+Working with `tf.data.Dataset` and its methods:
+```
+ds = tf.data.Dataset(..)
+ds.flat_map(..)
+ds.map(..)
+ds.shuffle().batch().prefetch()
+ds.window(..)
+```
+
+## B_...
+
+Tunage of Learning Rate using callbacks:
+```
+tf.keras.callbacks.LearningRateScheduler()
+```
+
+## C_...
+
+Reshaping data into 3D suitable for LSTM input and application of Lambda layer to accomplish this in a systematic way:
+```
+model = tf.keras.Sequential([
+    tf.keras.layers.Lambda(lambda x: tf.reshape(x, [-1, SEQ_LENGTH, FEATURE_DIMENSIONALITY]),\
+                           input_shape=[None]),
+    tf.keras.layers.LSTM(8, input_shape=[SEQ_LENGTH, FEATURE_DIMENSIONALITY]),
+            ...
 ```
